@@ -29,8 +29,12 @@ set(BUILD_EXAMPLES OFF CACHE INTERNAL "")
 # Make Raylib available for the project
 FetchContent_MakeAvailable(raylib)
 
-# Include the Renderer subdirectory for building
+FetchContent_Declare(json URL https://github.com/nlohmann/json/releases/download/v3.11.3/json.tar.xz)
+FetchContent_MakeAvailable(json)
+
+# Include subdirectories for building
 add_subdirectory(Renderer)
+add_subdirectory(FileParser)
 
 # Define project sources
 set(PROJECT_SOURCES main.cpp)
@@ -39,7 +43,17 @@ set(PROJECT_SOURCES main.cpp)
 add_executable(${PROJECT_NAME} ${PROJECT_SOURCES})
 
 # Link the executable with Renderer and Raylib libraries
-target_link_libraries(${PROJECT_NAME} Renderer raylib)
+target_link_libraries(${PROJECT_NAME} Renderer FileParser raylib nlohmann_json::nlohmann_json)
+
+# Copy resources to binary directory
+file(MAKE_DIRECTORY ${PROJECT_BINARY_DIR}/Data)
+add_custom_target(copy_resources ALL
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+        ${PROJECT_DIR}/Data
+        ${PROJECT_BINARY_DIR}/Data
+        COMMENT "Copying resources into binary directory")
+
+add_dependencies(${PROJECT_NAME} copy_resources)
 
 # Additional settings for macOS
 if (APPLE)
