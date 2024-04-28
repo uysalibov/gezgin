@@ -30,3 +30,7 @@
 *.exe
 *.out
 *.app
+
+# Debug files
+build/
+.vscode/
