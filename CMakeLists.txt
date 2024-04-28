@@ -46,11 +46,11 @@ add_executable(${PROJECT_NAME} ${PROJECT_SOURCES})
 target_link_libraries(${PROJECT_NAME} Renderer FileParser raylib nlohmann_json::nlohmann_json)
 
 # Copy resources to binary directory
-file(MAKE_DIRECTORY ${PROJECT_BINARY_DIR}/Data)
+file(MAKE_DIRECTORY ${PROJECT_BINARY_DIR}/Maps)
 add_custom_target(copy_resources ALL
         COMMAND ${CMAKE_COMMAND} -E copy_directory
-        ${PROJECT_DIR}/Data
-        ${PROJECT_BINARY_DIR}/Data
+        ${PROJECT_DIR}/Maps
+        ${PROJECT_BINARY_DIR}/Maps
         COMMENT "Copying resources into binary directory")
 
 add_dependencies(${PROJECT_NAME} copy_resources)
