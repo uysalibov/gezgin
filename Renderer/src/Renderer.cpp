@@ -26,6 +26,6 @@ void gez::renderer::DrawHighways()
     for (int i = 0; i < fileparser::lines.size(); i++)
     {
         Vector4 line = fileparser::lines[i];
-        DrawLineEx({line.y + 50, line.x + 50}, {line.w + 50, line.z + 50}, 5.f, Color{110, 110, 110, 255});
+        DrawLineEx({line.y + 50, GetScreenHeight() / 2 - line.x + 50}, {line.w + 50, GetScreenHeight() / 2 - line.z + 50}, 5.f, Color{110, 110, 110, 255});
     }
 }
