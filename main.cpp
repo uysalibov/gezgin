@@ -8,8 +8,8 @@ int main()
     gez::fileparser::ReadFile("./Maps/simpleIST2.json");
     gez::fileparser::ParseData();
     gez::fileparser::StandardizeData();
-    gez::fileparser::ScaleData(100, 500);
-    gez::fileparser::PrintData();
+    gez::fileparser::ScaleData(1000);
+    // gez::fileparser::PrintData();
 
     gez::renderer::run();
     return 0;

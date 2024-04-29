@@ -21,7 +21,7 @@ void gez::renderer::run()
         BeginDrawing();
         BeginMode2D(camera);
         ClearBackground(Color{27, 27, 27, 255});
-        // DrawText("Hello, World!", 10, 10, 20, Color{110, 110, 110, 255});
+        // DrawText("Hello, World!", 10, 10, 20, Color{110, 110, 110, 255}); // Color{113, 254, 190, 255}
         DrawHighways();
         EndMode2D();
         EndDrawing();
@@ -34,6 +34,6 @@ void gez::renderer::DrawHighways()
     for (int i = 0; i < fileparser::lines.size(); i++)
     {
         Vector4 line = fileparser::lines[i];
-        DrawLineEx({line.y + 50, GetScreenHeight() / 2 - line.x + 50}, {line.w + 50, GetScreenHeight() / 2 - line.z + 50}, 1.f, Color{113, 254, 190, 255});
+        DrawLineEx({line.y + 50, GetScreenHeight() / 2 - line.x + 50}, {line.w + 50, GetScreenHeight() / 2 - line.z + 50}, 1.f, Color{110, 110, 110, 255});
     }
 }
