@@ -17,6 +17,6 @@ namespace gez
         void ParseData();
         Vector4 *GetBounds();
         void StandardizeData();
-        void ScaleData(int scaleFactorX, int scaleFactorY);
+        void ScaleData(int scaleFactor);
     }
 }

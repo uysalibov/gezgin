@@ -84,15 +84,17 @@ void gez::fileparser::StandardizeData()
     std::cout << "Bounds: " << bounds->x << " " << bounds->y << " - " << bounds->z << " " << bounds->w << std::endl;
 }
 
-void gez::fileparser::ScaleData(int scaleFactorX, int scaleFactorY)
+void gez::fileparser::ScaleData(int scaleFactor)
 {
+    std::cout << "XDiff: " << lines[0].z - lines[0].x << " YDiff: " << lines[0].w - lines[0].y << std::endl;
+    float multiplier = (lines[0].z - lines[0].x) / (lines[0].w - lines[0].y);
     for (int i = 0, size = lines.size(); i < size; i++)
     {
         Vector4 line = lines[i];
-        line.x *= scaleFactorX;
-        line.y *= scaleFactorY;
-        line.z *= scaleFactorX;
-        line.w *= scaleFactorY;
+        line.x *= scaleFactor / multiplier;
+        line.y *= scaleFactor;
+        line.z *= scaleFactor / multiplier;
+        line.w *= scaleFactor;
 
         lines[i] = line;
     }
