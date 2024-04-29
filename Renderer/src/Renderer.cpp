@@ -9,7 +9,9 @@ void gez::renderer::init(int screenWidth, int screenHeight, const char *title)
 {
     camera = {0};
     camera.zoom = 1.0f;
+    SetConfigFlags(FLAG_WINDOW_RESIZABLE);
     InitWindow(screenWidth, screenHeight, title);
+    MaximizeWindow();
     SetTargetFPS(60);
 }
 
