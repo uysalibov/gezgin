@@ -1,5 +1,6 @@
 set(renderer_sources
     src/Renderer.cpp
+    src/Inputs.cpp
 )
 
 add_library(Renderer ${renderer_sources})

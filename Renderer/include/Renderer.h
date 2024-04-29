@@ -5,6 +5,8 @@ namespace gez
 {
     namespace renderer
     {
+        extern Camera2D camera;
+
         void init(int screenWidth, int screenHeight, const char *title);
         void run();
         void DrawHighways();
