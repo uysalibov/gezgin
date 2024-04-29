@@ -81,6 +81,7 @@ void gez::fileparser::StandardizeData()
 
         lines[i] = line;
     }
+    std::cout << "Bounds: " << bounds->x << " " << bounds->y << " - " << bounds->z << " " << bounds->w << std::endl;
 }
 
 void gez::fileparser::ScaleData(int scaleFactorX, int scaleFactorY)
