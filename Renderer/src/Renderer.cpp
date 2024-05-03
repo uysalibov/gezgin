@@ -1,6 +1,7 @@
 #include "Renderer.h"
 #include "OSMJson.h"
 #include "Inputs.h"
+#include "AdjList.h"
 #include <iostream>
 
 Camera2D gez::renderer::camera;
@@ -24,11 +25,24 @@ void gez::renderer::run()
         BeginMode2D(camera);
         ClearBackground(Color{27, 27, 27, 255});
         // DrawText("Hello, World!", 10, 10, 20, Color{110, 110, 110, 255}); // Color{113, 254, 190, 255}
-        DrawHighways();
+        // DrawHighways();
+        // DrawNodes();
+        DrawFromAdjList();
         EndMode2D();
+        DrawFPS(10, 10);
         EndDrawing();
     }
     CloseWindow();
+}
+
+void gez::renderer::DrawNodes()
+{
+    for (int i = 0; i < fileparser::nodes.size(); i++)
+    {
+        Vector2 node = fileparser::nodes[i];
+        DrawRectangle(node.y + 50, node.x + 50, 1.f, 1.f, Color{113, 254, 190, 255});
+        // DrawCircle(node.x + 50, node.y + 50, 1.f, Color{113, 254, 190, 255});
+    }
 }
 
 void gez::renderer::DrawHighways()
@@ -39,3 +53,52 @@ void gez::renderer::DrawHighways()
         DrawLineEx({line.y + 50, line.x + 50}, {line.w + 50, line.z + 50}, 1.f, Color{110, 110, 110, 255});
     }
 }
+
+void gez::renderer::DrawFromAdjList()
+{
+    for (int i = 0; i < AdjList::capacity; i++)
+    {
+        AdjList::Point *temp = &AdjList::array[i];
+        while (temp != nullptr)
+        {
+            if (temp->next != nullptr)
+            {
+                Vector2 start = fileparser::nodes[i];
+                Vector2 end = fileparser::nodes[temp->next->id];
+                DrawLineEx({start.y + 50, start.x + 50}, {end.y + 50, end.x + 50}, 1.f, Color{110, 110, 110, 255});
+            }
+            temp = temp->next;
+        }
+    }
+}
+
+/**
+ std::unordered_set<std::string> drawn;
+    for (int i = 0; i < AdjList::capacity; i++)
+    {
+        AdjList::Point *temp = &AdjList::array[i];
+        while (temp != nullptr)
+        {
+            if (temp->next != nullptr)
+            {
+                std::string key;
+                if (temp->id < temp->next->id)
+                {
+                    key = std::to_string(temp->id) + std::to_string(temp->next->id);
+                }
+                else
+                {
+                    key = std::to_string(temp->next->id) + std::to_string(temp->id);
+                }
+                if (drawn.find(key) == drawn.end())
+                {
+                    Vector2 start = fileparser::nodes[i];
+                    Vector2 end = fileparser::nodes[temp->next->id];
+                    DrawLineEx({start.y + 50, start.x + 50}, {end.y + 50, end.x + 50}, 1.f, Color{110, 110, 110, 255});
+                    drawn.insert(key);
+                }
+            }
+            temp = temp->next;
+        }
+    }
+*/

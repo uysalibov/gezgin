@@ -9,6 +9,8 @@ namespace gez
 
         void init(int screenWidth, int screenHeight, const char *title);
         void run();
+        void DrawNodes();
         void DrawHighways();
+        void DrawFromAdjList();
     }
 }
