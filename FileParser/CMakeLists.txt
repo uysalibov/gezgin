@@ -1,5 +1,6 @@
 set(FileParser_sources
     src/OSMJson.cpp
+    src/AdjList.cpp
 )
 
 add_library(FileParser ${FileParser_sources})
