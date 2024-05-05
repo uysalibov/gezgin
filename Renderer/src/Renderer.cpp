@@ -81,12 +81,10 @@ void gez::renderer::DrawFromAdjList()
         AdjList::Point *temp = &AdjList::array[i];
         while (temp != nullptr)
         {
-            if (temp->next != nullptr)
-            {
-                Vector2 start = fileparser::nodes[i];
-                Vector2 end = fileparser::nodes[temp->next->id];
-                DrawLineEx(start, end, 1.f, Color{110, 110, 110, 255});
-            }
+            Vector2 start = fileparser::nodes[i];
+            Vector2 end = fileparser::nodes[temp->id];
+            DrawLineEx(start, end, 1.f, Color{110, 110, 110, 255});
+
             temp = temp->next;
         }
     }
