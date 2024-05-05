@@ -2,6 +2,7 @@
 #include "OSMJson.h"
 #include "Inputs.h"
 #include "AdjList.h"
+#include "Graph.h"
 #include <iostream>
 
 Camera2D gez::renderer::camera;
@@ -28,7 +29,8 @@ void gez::renderer::run()
         // DrawHighways();
         // DrawNodes();
         DrawFromAdjList();
-        ClosestNode();
+        DrawCursor();
+        DrawSelectedNodes();
         EndMode2D();
         DrawFPS(10, 10);
         EndDrawing();
@@ -36,23 +38,21 @@ void gez::renderer::run()
     CloseWindow();
 }
 
-void gez::renderer::ClosestNode()
+void gez::renderer::DrawSelectedNodes()
+{
+    for (int i = 0; i < selectedPointsCount; i++)
+    {
+        Vector2 node = selectedPoints[i];
+        DrawCircle(node.x, node.y, 1.f, Color{113, 254, 190, 255});
+        DrawText("Closest Node", node.x, node.y, 10, Color{113, 254, 190, 255});
+    }
+}
+
+void gez::renderer::DrawCursor()
 {
     Vector2 mousePos = GetScreenToWorld2D(GetMousePosition(), camera);
-    Vector2 closestNode = fileparser::nodes[0];
-    float closestDistance = sqrt(pow(mousePos.x - closestNode.x, 2) + pow(mousePos.y - closestNode.y, 2));
-    for (int i = 1; i < fileparser::nodes.size(); i++)
-    {
-        Vector2 node = fileparser::nodes[i];
-        float distance = sqrt(pow(mousePos.x - node.x, 2) + pow(mousePos.y - node.y, 2));
-        if (distance < closestDistance)
-        {
-            closestDistance = distance;
-            closestNode = node;
-        }
-    }
-    DrawCircle(closestNode.x, closestNode.y, 1.f, Color{113, 254, 190, 255});
-    DrawText("Closest Node", closestNode.x, closestNode.y, 10, Color{113, 254, 190, 255});
+    Vector2 closestNode = gez::graph::SelectClosestNode(mousePos);
+    DrawCircle(closestNode.x, closestNode.y, 2.f, Color{240, 240, 240, 255});
 }
 
 void gez::renderer::DrawNodes()
