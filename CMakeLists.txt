@@ -33,9 +33,9 @@ FetchContent_Declare(json URL https://github.com/nlohmann/json/releases/download
 FetchContent_MakeAvailable(json)
 
 # Include subdirectories for building
+add_subdirectory(Processing)
 add_subdirectory(Renderer)
 add_subdirectory(FileParser)
-add_subdirectory(Processing)
 
 # Define project sources
 set(PROJECT_SOURCES main.cpp)
@@ -44,7 +44,7 @@ set(PROJECT_SOURCES main.cpp)
 add_executable(${PROJECT_NAME} ${PROJECT_SOURCES})
 
 # Link the executable with Renderer and Raylib libraries
-target_link_libraries(${PROJECT_NAME} Renderer FileParser Processing raylib nlohmann_json::nlohmann_json)
+target_link_libraries(${PROJECT_NAME} Processing Renderer FileParser raylib nlohmann_json::nlohmann_json)
 
 # Copy resources to binary directory
 file(MAKE_DIRECTORY ${PROJECT_BINARY_DIR}/Maps)
