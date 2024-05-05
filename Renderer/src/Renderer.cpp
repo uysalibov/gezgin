@@ -28,11 +28,31 @@ void gez::renderer::run()
         // DrawHighways();
         // DrawNodes();
         DrawFromAdjList();
+        ClosestNode();
         EndMode2D();
         DrawFPS(10, 10);
         EndDrawing();
     }
     CloseWindow();
+}
+
+void gez::renderer::ClosestNode()
+{
+    Vector2 mousePos = GetScreenToWorld2D(GetMousePosition(), camera);
+    Vector2 closestNode = fileparser::nodes[0];
+    float closestDistance = sqrt(pow(mousePos.x - closestNode.x, 2) + pow(mousePos.y - closestNode.y, 2));
+    for (int i = 1; i < fileparser::nodes.size(); i++)
+    {
+        Vector2 node = fileparser::nodes[i];
+        float distance = sqrt(pow(mousePos.x - node.x, 2) + pow(mousePos.y - node.y, 2));
+        if (distance < closestDistance)
+        {
+            closestDistance = distance;
+            closestNode = node;
+        }
+    }
+    DrawCircle(closestNode.x, closestNode.y, 1.f, Color{113, 254, 190, 255});
+    DrawText("Closest Node", closestNode.x, closestNode.y, 10, Color{113, 254, 190, 255});
 }
 
 void gez::renderer::DrawNodes()
@@ -65,7 +85,7 @@ void gez::renderer::DrawFromAdjList()
             {
                 Vector2 start = fileparser::nodes[i];
                 Vector2 end = fileparser::nodes[temp->next->id];
-                DrawLineEx({start.y + 50, start.x + 50}, {end.y + 50, end.x + 50}, 1.f, Color{110, 110, 110, 255});
+                DrawLineEx(start, end, 1.f, Color{110, 110, 110, 255});
             }
             temp = temp->next;
         }
