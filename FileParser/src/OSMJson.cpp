@@ -134,7 +134,10 @@ void gez::fileparser::ScaleData(int scaleFactor)
 {
     for (int i = 0, size = nodes.size(); i < size; i++)
     {
-        nodes[i].x *= scaleFactor;
-        nodes[i].y *= scaleFactor;
+        float temp = nodes[i].x;
+        nodes[i].x = nodes[i].y * scaleFactor + 50;
+        nodes[i].y = temp * scaleFactor + 50;
+        // nodes[i].x *= scaleFactor;
+        // nodes[i].y *= scaleFactor;
     }
 }
