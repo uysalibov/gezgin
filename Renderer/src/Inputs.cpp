@@ -40,7 +40,7 @@ namespace gez
             }
 
             // Selecting points
-            if (IsMouseButtonDown(MOUSE_BUTTON_LEFT))
+            if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
             {
                 Vector2 mousePos = GetScreenToWorld2D(GetMousePosition(), *camera);
                 Vector2 closestNode = gez::graph::SelectClosestNode(mousePos);
