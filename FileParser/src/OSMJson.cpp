@@ -35,7 +35,7 @@ void gez::fileparser::PrintData()
 void gez::fileparser::AddNode(Vector2 node)
 {
     size_t hash = GetHash(node);
-    std::cout << "Hash: " << hash << std::endl;
+    // std::cout << "Hash: " << hash << std::endl;
 
     if (nodeMap.find(hash) == nodeMap.end())
     {
