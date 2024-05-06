@@ -3,6 +3,7 @@
 #include "Inputs.h"
 #include "AdjList.h"
 #include "Graph.h"
+#include "Dijkstra.h"
 #include <iostream>
 
 Camera2D gez::renderer::camera;
@@ -31,6 +32,7 @@ void gez::renderer::run()
         DrawFromAdjList();
         DrawCursor();
         DrawSelectedNodes();
+        DrawDijkstra();
         EndMode2D();
         DrawFPS(10, 10);
         EndDrawing();
@@ -51,7 +53,7 @@ void gez::renderer::DrawSelectedNodes()
 void gez::renderer::DrawCursor()
 {
     Vector2 mousePos = GetScreenToWorld2D(GetMousePosition(), camera);
-    Vector2 closestNode = gez::graph::SelectClosestNode(mousePos);
+    Vector3 closestNode = gez::graph::SelectClosestNode(mousePos);
     DrawCircle(closestNode.x, closestNode.y, 2.f, Color{240, 240, 240, 255});
 }
 
@@ -86,6 +88,23 @@ void gez::renderer::DrawFromAdjList()
             DrawLineEx(start, end, 1.f, Color{110, 110, 110, 255});
 
             temp = temp->next;
+        }
+    }
+}
+
+void gez::renderer::DrawDijkstra()
+{
+    if (gez::Dijkstra::isRunning)
+    {
+        gez::Dijkstra::dijkstra();
+        for (int i = 0; i < gez::Dijkstra::n; i++)
+        {
+            if (Dijkstra::spt[i].parent != -1)
+            {
+                Vector2 start = fileparser::nodes[Dijkstra::spt[i].parent];
+                Vector2 end = fileparser::nodes[i];
+                DrawLineEx(start, end, 1.f, Color{240, 240, 240, 255});
+            }
         }
     }
 }

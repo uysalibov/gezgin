@@ -14,5 +14,6 @@ namespace gez
         void DrawNodes();
         void DrawHighways();
         void DrawFromAdjList();
+        void DrawDijkstra();
     }
 }
