@@ -1,6 +1,9 @@
 #include "Inputs.h"
 #include "raymath.h"
 #include "Graph.h"
+#include "Dijkstra.h"
+#include "AdjList.h"
+#include <iostream>
 
 Vector2 gez::renderer::selectedPoints[2];
 int gez::renderer::selectedPointsCount = 0;
@@ -43,11 +46,13 @@ namespace gez
             if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
             {
                 Vector2 mousePos = GetScreenToWorld2D(GetMousePosition(), *camera);
-                Vector2 closestNode = gez::graph::SelectClosestNode(mousePos);
+                Vector3 closestNode = gez::graph::SelectClosestNode(mousePos);
                 if (selectedPointsCount < 2)
                 {
-                    selectedPoints[selectedPointsCount] = closestNode;
+                    selectedPoints[selectedPointsCount] = {closestNode.x, closestNode.y};
                     selectedPointsCount++;
+                    gez::Dijkstra::init(gez::AdjList::capacity);
+                    gez::Dijkstra::start(closestNode.z);
                 }
                 else
                 {
