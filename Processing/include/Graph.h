@@ -6,6 +6,6 @@ namespace gez
 {
     namespace graph
     {
-        Vector2 SelectClosestNode(Vector2 cursor);
+        Vector3 SelectClosestNode(Vector2 cursor);
     }
 }
