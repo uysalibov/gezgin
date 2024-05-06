@@ -1,6 +1,7 @@
 set(Processing_sources
     src/Round.cpp
     src/Graph.cpp
+    src/Dijkstra.cpp
 )
 
 add_library(Processing ${Processing_sources})
