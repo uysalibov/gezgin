@@ -44,7 +44,7 @@ void gez::renderer::DrawSelectedNodes()
 {
     for (int i = 0; i < selectedPointsCount; i++)
     {
-        Vector2 node = selectedPoints[i];
+        Vector3 node = selectedPoints[i];
         DrawCircle(node.x, node.y, 1.f, Color{113, 254, 190, 255});
         DrawText("Closest Node", node.x, node.y, 10, Color{113, 254, 190, 255});
     }
@@ -94,7 +94,7 @@ void gez::renderer::DrawFromAdjList()
 
 void gez::renderer::DrawDijkstra()
 {
-    if (gez::Dijkstra::isRunning)
+    if (gez::Dijkstra::isRunning || gez::Dijkstra::isFinished)
     {
         gez::Dijkstra::dijkstra();
         for (int i = 0; i < gez::Dijkstra::n; i++)

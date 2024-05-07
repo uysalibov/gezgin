@@ -7,6 +7,8 @@ std::vector<int> gez::Dijkstra::stepList;
 int gez::Dijkstra::n = 0;
 float gez::Dijkstra::frameTime = 0;
 bool gez::Dijkstra::isRunning = false;
+bool gez::Dijkstra::isFinished = false;
+int gez::Dijkstra::startStop[2] = {0, 0};
 
 void gez::Dijkstra::init(int n)
 {
@@ -21,8 +23,11 @@ void gez::Dijkstra::init(int n)
     stepList.clear();
 }
 
-void gez::Dijkstra::start(int start)
+void gez::Dijkstra::start(int start, int end)
 {
+    startStop[0] = start;
+    startStop[1] = end;
+
     isRunning = true;
     spt[start].weight = 0;
     spt[start].visited = true;
@@ -46,6 +51,13 @@ void gez::Dijkstra::start(int start)
 
 void gez::Dijkstra::dijkstra()
 {
+    // check if end is reached
+    if (spt[startStop[1]].visited)
+    {
+        isRunning = false;
+        isFinished = true;
+        return;
+    }
     std::vector<int> temp;
     for (size_t i = 0; i < stepList.size(); i++)
     {

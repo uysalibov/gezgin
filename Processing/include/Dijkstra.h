@@ -18,9 +18,12 @@ namespace gez
         extern int n;
         extern float frameTime;
         extern bool isRunning;
+        extern bool isFinished;
+        extern int startStop[2];
 
-        void init(int n);
-        void start(int start);
+        void
+        init(int n);
+        void start(int start, int end);
         void dijkstra();
     }
 }

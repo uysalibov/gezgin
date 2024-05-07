@@ -6,7 +6,7 @@ namespace gez
 {
     namespace renderer
     {
-        extern Vector2 selectedPoints[2];
+        extern Vector3 selectedPoints[2];
         extern int selectedPointsCount;
 
         void ProcessInput(Camera2D *camera);

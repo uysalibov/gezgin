@@ -5,7 +5,7 @@
 #include "AdjList.h"
 #include <iostream>
 
-Vector2 gez::renderer::selectedPoints[2];
+Vector3 gez::renderer::selectedPoints[2];
 int gez::renderer::selectedPointsCount = 0;
 
 namespace gez
@@ -49,10 +49,13 @@ namespace gez
                 Vector3 closestNode = gez::graph::SelectClosestNode(mousePos);
                 if (selectedPointsCount < 2)
                 {
-                    selectedPoints[selectedPointsCount] = {closestNode.x, closestNode.y};
+                    selectedPoints[selectedPointsCount] = closestNode;
                     selectedPointsCount++;
-                    gez::Dijkstra::init(gez::AdjList::capacity);
-                    gez::Dijkstra::start(closestNode.z);
+                    if (selectedPointsCount == 2)
+                    {
+                        gez::Dijkstra::init(gez::AdjList::capacity);
+                        gez::Dijkstra::start(selectedPoints[0].z, closestNode.z);
+                    }
                 }
                 else
                 {
