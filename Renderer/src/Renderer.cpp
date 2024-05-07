@@ -7,6 +7,8 @@
 #include <iostream>
 
 Camera2D gez::renderer::camera;
+RenderTexture2D gez::renderer::target;
+Vector4 *gez::renderer::bounds;
 
 void gez::renderer::init(int screenWidth, int screenHeight, const char *title)
 {
@@ -20,6 +22,7 @@ void gez::renderer::init(int screenWidth, int screenHeight, const char *title)
 
 void gez::renderer::run()
 {
+    InitMapTexture();
     while (!WindowShouldClose())
     {
         ProcessInput(&camera);
@@ -29,7 +32,10 @@ void gez::renderer::run()
         // DrawText("Hello, World!", 10, 10, 20, Color{110, 110, 110, 255}); // Color{113, 254, 190, 255}
         // DrawHighways();
         // DrawNodes();
-        DrawFromAdjList();
+        // DrawFromAdjList();
+        // DrawTextureRec(target.texture, {0, 0, (float)target.texture.width, (float)target.texture.height}, {0, -bounds->w}, WHITE);
+        DrawTextureRec(target.texture, {0, 0, (float)target.texture.width, (float)-target.texture.height}, {0, 0}, WHITE);
+        // DrawTexturePro(target.texture, {0, 0, bounds->z, -bounds->w}, {0, 0, (float)GetScreenWidth(), (float)GetScreenHeight()}, {0, 0}, 0, WHITE);
         DrawCursor();
         DrawDijkstra();
         DrawSelectedNodes();
@@ -38,6 +44,18 @@ void gez::renderer::run()
         EndDrawing();
     }
     CloseWindow();
+}
+
+void gez::renderer::InitMapTexture()
+{
+    target = LoadRenderTexture(GetScreenWidth(), GetScreenWidth());
+    BeginTextureMode(target);
+    ClearBackground(Color{27, 27, 27, 255});
+    DrawFromAdjList();
+    EndTextureMode();
+
+    bounds = fileparser::GetBounds();
+    std::cout << "Bounds: " << bounds->x << " " << bounds->y << " " << bounds->z << " " << bounds->w << std::endl;
 }
 
 void gez::renderer::DrawSelectedNodes()
