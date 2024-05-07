@@ -29,13 +29,7 @@ void gez::renderer::run()
         BeginDrawing();
         BeginMode2D(camera);
         ClearBackground(Color{27, 27, 27, 255});
-        // DrawText("Hello, World!", 10, 10, 20, Color{110, 110, 110, 255}); // Color{113, 254, 190, 255}
-        // DrawHighways();
-        // DrawNodes();
-        // DrawFromAdjList();
-        // DrawTextureRec(target.texture, {0, 0, (float)target.texture.width, (float)target.texture.height}, {0, -bounds->w}, WHITE);
-        DrawTextureRec(target.texture, {0, 0, (float)target.texture.width, (float)-target.texture.height}, {0, 0}, WHITE);
-        // DrawTexturePro(target.texture, {0, 0, bounds->z, -bounds->w}, {0, 0, (float)GetScreenWidth(), (float)GetScreenHeight()}, {0, 0}, 0, WHITE);
+        DrawTexturePro(target.texture, {0, 0, (float)target.texture.width, (float)-target.texture.height}, {0, 0, (float)GetScreenWidth(), (float)GetScreenWidth()}, {0, 0}, 0, WHITE);
         DrawCursor();
         DrawDijkstra();
         DrawSelectedNodes();
@@ -48,10 +42,11 @@ void gez::renderer::run()
 
 void gez::renderer::InitMapTexture()
 {
-    target = LoadRenderTexture(GetScreenWidth(), GetScreenWidth());
+    int scale = 4;
+    target = LoadRenderTexture(GetScreenWidth() * scale, GetScreenWidth() * scale);
     BeginTextureMode(target);
     ClearBackground(Color{27, 27, 27, 255});
-    DrawFromAdjList();
+    DrawFromAdjList(scale);
     EndTextureMode();
 
     bounds = fileparser::GetBounds();
@@ -101,16 +96,16 @@ void gez::renderer::DrawHighways()
     }
 }
 
-void gez::renderer::DrawFromAdjList()
+void gez::renderer::DrawFromAdjList(int scale)
 {
     for (int i = 0; i < AdjList::capacity; i++)
     {
         AdjList::Point *temp = &AdjList::array[i];
         while (temp != nullptr)
         {
-            Vector2 start = fileparser::nodes[i];
-            Vector2 end = fileparser::nodes[temp->id];
-            DrawLineEx(start, end, 1.f, Color{110, 110, 110, 255});
+            Vector2 start = {fileparser::nodes[i].x * scale, fileparser::nodes[i].y * scale};
+            Vector2 end = {fileparser::nodes[temp->id].x * scale, fileparser::nodes[temp->id].y * scale};
+            DrawLineEx(start, end, scale, Color{110, 110, 110, 255});
 
             temp = temp->next;
         }
