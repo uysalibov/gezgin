@@ -94,7 +94,7 @@ void gez::renderer::DrawFromAdjList()
 
 void gez::renderer::DrawDijkstra()
 {
-    if (gez::Dijkstra::isRunning || gez::Dijkstra::isFinished)
+    if (gez::Dijkstra::isRunning)
     {
         gez::Dijkstra::dijkstra();
         for (int i = 0; i < gez::Dijkstra::n; i++)
@@ -105,6 +105,21 @@ void gez::renderer::DrawDijkstra()
                 Vector2 end = fileparser::nodes[i];
                 DrawLineEx(start, end, 1.f, Color{240, 240, 240, 255});
             }
+        }
+    }
+
+    // draw path from start to end
+    if (gez::Dijkstra::isFinished)
+    {
+        int endId = gez::Dijkstra::startStop[1];
+        int parent = gez::Dijkstra::spt[endId].parent;
+        while (parent != -1)
+        {
+            Vector2 start = fileparser::nodes[parent];
+            Vector2 end = fileparser::nodes[endId];
+            DrawLineEx(start, end, 1.f, Color{240, 0, 0, 255});
+            endId = parent;
+            parent = gez::Dijkstra::spt[endId].parent;
         }
     }
 }
