@@ -60,6 +60,7 @@ namespace gez
                 else
                 {
                     selectedPointsCount = 0;
+                    gez::Dijkstra::init(gez::AdjList::capacity);
                 }
             }
         }
