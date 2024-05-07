@@ -136,7 +136,7 @@ void gez::fileparser::ScaleData(int scaleFactor)
     {
         float temp = nodes[i].x;
         nodes[i].x = nodes[i].y * scaleFactor + 50;
-        nodes[i].y = GetScreenHeight() - (temp * scaleFactor + 50);
+        nodes[i].y = GetScreenWidth() - (temp * scaleFactor) + 50;
         // nodes[i].x *= scaleFactor;
         // nodes[i].y *= scaleFactor;
     }
