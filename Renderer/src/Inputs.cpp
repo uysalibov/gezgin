@@ -3,6 +3,7 @@
 #include "Graph.h"
 #include "Dijkstra.h"
 #include "AdjList.h"
+#include "NodeAnim.h"
 #include <iostream>
 
 Vector3 gez::renderer::selectedPoints[2];
@@ -49,6 +50,7 @@ namespace gez
                 Vector3 closestNode = gez::graph::SelectClosestNode(mousePos);
                 if (selectedPointsCount < 2)
                 {
+                    gez::NodeAnim::AddNode(selectedPointsCount, Color{113, 254, 190, 255}, 0.5f);
                     selectedPoints[selectedPointsCount] = closestNode;
                     selectedPointsCount++;
                     if (selectedPointsCount == 2)

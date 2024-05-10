@@ -4,6 +4,7 @@
 #include "AdjList.h"
 #include "Graph.h"
 #include "Dijkstra.h"
+#include "NodeAnim.h"
 #include <iostream>
 
 Camera2D gez::renderer::camera;
@@ -30,6 +31,8 @@ void gez::renderer::run()
         BeginMode2D(camera);
         ClearBackground(Color{27, 27, 27, 255});
         DrawTexturePro(target.texture, {0, 0, (float)target.texture.width, (float)-target.texture.height}, {0, 0, (float)GetScreenWidth(), (float)GetScreenWidth()}, {0, 0}, 0, WHITE);
+        gez::NodeAnim::UpdateNode(GetFrameTime());
+
         DrawCursor();
         DrawDijkstra();
         DrawSelectedNodes();
@@ -58,7 +61,11 @@ void gez::renderer::DrawSelectedNodes()
     for (int i = 0; i < selectedPointsCount; i++)
     {
         Vector3 node = selectedPoints[i];
-        DrawCircle(node.x, node.y, 1.f, Color{113, 254, 190, 255});
+        if (gez::NodeAnim::nodeAnimList[i].isStarted || gez::NodeAnim::nodeAnimList[i].isFinished)
+        {
+            DrawCircle(node.x, node.y, gez::NodeAnim::nodeAnimList[i].radius, gez::NodeAnim::nodeAnimList[i].color);
+        }
+        // DrawCircle(node.x, node.y, 1.f, Color{113, 254, 190, 255});
         if (i == 0)
         {
             DrawText("Start Node", node.x, node.y, 15, Color{113, 254, 190, 255});
