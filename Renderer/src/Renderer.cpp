@@ -68,11 +68,11 @@ void gez::renderer::DrawSelectedNodes()
         // DrawCircle(node.x, node.y, 1.f, Color{113, 254, 190, 255});
         if (i == 0)
         {
-            DrawText("Start Node", node.x, node.y, 15, Color{113, 254, 190, 255});
+            DrawText("Start Node", node.x, node.y + 5, 15, Color{113, 254, 190, 255});
         }
         else if (i == 1)
         {
-            DrawText("End Node", node.x, node.y, 15, Color{113, 254, 190, 255});
+            DrawText("End Node", node.x, node.y + 5, 15, Color{113, 254, 190, 255});
         }
     }
 }
