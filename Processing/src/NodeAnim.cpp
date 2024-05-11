@@ -22,7 +22,7 @@ void gez::NodeAnim::UpdateNode(float deltaTime)
             // increase radius by time
             if (nodeAnimList[i].duration > 0)
             {
-                nodeAnimList[i].radius += deltaTime * 10;
+                nodeAnimList[i].radius += deltaTime * 5;
                 nodeAnimList[i].duration -= deltaTime;
             }
             else
