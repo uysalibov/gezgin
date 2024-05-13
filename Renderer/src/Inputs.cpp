@@ -50,7 +50,7 @@ namespace gez
                 Vector3 closestNode = gez::graph::SelectClosestNode(mousePos);
                 if (selectedPointsCount < 2)
                 {
-                    gez::NodeAnim::AddNode(selectedPointsCount, Color{113, 254, 190, 255}, 0.5f);
+                    gez::NodeAnim::AddNode(selectedPointsCount, Color{105, 61, 228, 255}, 0.5f);
                     selectedPoints[selectedPointsCount] = closestNode;
                     selectedPointsCount++;
                     if (selectedPointsCount == 2)

@@ -29,7 +29,7 @@ void gez::renderer::run()
         ProcessInput(&camera);
         BeginDrawing();
         BeginMode2D(camera);
-        ClearBackground(Color{27, 27, 27, 255});
+        ClearBackground(Color{17, 17, 16, 255});
         DrawTexturePro(target.texture, {0, 0, (float)target.texture.width, (float)-target.texture.height}, {0, 0, (float)GetScreenWidth(), (float)GetScreenWidth()}, {0, 0}, 0, WHITE);
         gez::NodeAnim::UpdateNode(GetFrameTime());
 
@@ -45,10 +45,10 @@ void gez::renderer::run()
 
 void gez::renderer::InitMapTexture()
 {
-    int scale = 4;
+    int scale = 8;
     target = LoadRenderTexture(GetScreenWidth() * scale, GetScreenWidth() * scale);
     BeginTextureMode(target);
-    ClearBackground(Color{27, 27, 27, 255});
+    ClearBackground(Color{17, 17, 16, 255});
     DrawFromAdjList(scale);
     EndTextureMode();
 
@@ -64,15 +64,6 @@ void gez::renderer::DrawSelectedNodes()
         if (gez::NodeAnim::nodeAnimList[i].isStarted || gez::NodeAnim::nodeAnimList[i].isFinished)
         {
             DrawCircle(node.x, node.y, gez::NodeAnim::nodeAnimList[i].radius, gez::NodeAnim::nodeAnimList[i].color);
-        }
-        // DrawCircle(node.x, node.y, 1.f, Color{113, 254, 190, 255});
-        if (i == 0)
-        {
-            DrawText("Start Node", node.x, node.y + 5, 15, Color{113, 254, 190, 255});
-        }
-        else if (i == 1)
-        {
-            DrawText("End Node", node.x, node.y + 5, 15, Color{113, 254, 190, 255});
         }
     }
 }
@@ -112,7 +103,7 @@ void gez::renderer::DrawFromAdjList(int scale)
         {
             Vector2 start = {fileparser::nodes[i].x * scale, fileparser::nodes[i].y * scale};
             Vector2 end = {fileparser::nodes[temp->id].x * scale, fileparser::nodes[temp->id].y * scale};
-            DrawLineEx(start, end, scale, Color{110, 110, 110, 255});
+            DrawLineEx(start, end, scale, Color{72, 62, 88, 255});
 
             temp = temp->next;
         }
@@ -130,7 +121,7 @@ void gez::renderer::DrawDijkstra()
             {
                 Vector2 start = fileparser::nodes[Dijkstra::spt[i].parent];
                 Vector2 end = fileparser::nodes[i];
-                DrawLineEx(start, end, 1.f, Color{240, 240, 240, 255});
+                DrawLineEx(start, end, 1.f, Color{155, 212, 242, 255});
             }
         }
     }
@@ -144,7 +135,7 @@ void gez::renderer::DrawDijkstra()
         {
             Vector2 start = fileparser::nodes[parent];
             Vector2 end = fileparser::nodes[endId];
-            DrawLineEx(start, end, 1.f, Color{240, 0, 0, 255});
+            DrawLineEx(start, end, 2.f, Color{105, 61, 228, 255});
             endId = parent;
             parent = gez::Dijkstra::spt[endId].parent;
         }
