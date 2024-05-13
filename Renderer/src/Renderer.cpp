@@ -66,7 +66,7 @@ void gez::renderer::run()
 
             DrawText("By Ibrahim UYSAL", 10, GetScreenHeight() - 30, 20, Color{105, 61, 228, 255});
 
-            if (IsKeyPressed(KEY_ENTER))
+            if (IsKeyPressed(KEY_ENTER) && dataLoadStatus == 0)
             {
                 std::cout << "Starting loading data!" << std::endl;
                 dataLoadStatus = 1;
