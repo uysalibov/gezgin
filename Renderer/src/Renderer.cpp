@@ -10,9 +10,14 @@
 Camera2D gez::renderer::camera;
 RenderTexture2D gez::renderer::target;
 Vector4 *gez::renderer::bounds;
+int gez::renderer::activeScene;
+std::future<void> gez::renderer::isLoaded;
+int gez::renderer::dataLoadStatus;
 
 void gez::renderer::init(int screenWidth, int screenHeight, const char *title)
 {
+    activeScene = 0;
+    dataLoadStatus = 0;
     camera = {0};
     camera.zoom = 1.0f;
     SetConfigFlags(FLAG_WINDOW_RESIZABLE);
@@ -23,23 +28,71 @@ void gez::renderer::init(int screenWidth, int screenHeight, const char *title)
 
 void gez::renderer::run()
 {
-    InitMapTexture();
+
     while (!WindowShouldClose())
     {
         ProcessInput(&camera);
         BeginDrawing();
         BeginMode2D(camera);
         ClearBackground(Color{17, 17, 16, 255});
-        DrawTexturePro(target.texture, {0, 0, (float)target.texture.width, (float)-target.texture.height}, {0, 0, (float)GetScreenWidth(), (float)GetScreenWidth()}, {0, 0}, 0, WHITE);
-        gez::NodeAnim::UpdateNode(GetFrameTime());
+        if (activeScene == 0)
+        {
+            DrawText("Gezgin", GetScreenWidth() / 2 - MeasureText("Gezgin", 60) / 2, GetScreenHeight() / 2 - 60, 60, Color{105, 61, 228, 255});
+            DrawText("Pathfinding Visualizer", GetScreenWidth() / 2 - MeasureText("Pathfinding Visualizer", 40) / 2, GetScreenHeight() / 2 + 20, 40, Color{105, 61, 228, 255});
 
-        DrawCursor();
-        DrawDijkstra();
-        DrawSelectedNodes();
-        EndMode2D();
-        DrawFPS(10, 10);
-        DrawText("Istanbul", 20, GetScreenHeight() - 50, 40, Color{105, 61, 228, 255});
-        DrawText("By Ibrahim UYSAL", 50, GetScreenHeight() - 15, 10, Color{105, 61, 228, 255});
+            switch (dataLoadStatus)
+            {
+            case 0:
+                DrawText("Press Enter to load data", GetScreenWidth() / 2 - MeasureText("Press Enter to load data", 20) / 2, GetScreenHeight() / 2 + 150, 20, Color{155, 212, 242, 255});
+                break;
+            case 1:
+                DrawText("Loading data...", GetScreenWidth() / 2 - MeasureText("Loading data...", 20) / 2, GetScreenHeight() / 2 + 150, 20, Color{155, 212, 242, 255});
+                break;
+            case 2:
+                DrawText("Reading file...", GetScreenWidth() / 2 - MeasureText("Reading file...", 20) / 2, GetScreenHeight() / 2 + 150, 20, Color{155, 212, 242, 255});
+                break;
+            case 3:
+                DrawText("Parsing data...", GetScreenWidth() / 2 - MeasureText("Parsing data...", 20) / 2, GetScreenHeight() / 2 + 150, 20, Color{155, 212, 242, 255});
+                break;
+            case 4:
+                DrawText("Standardizing data...", GetScreenWidth() / 2 - MeasureText("Standardizing data...", 20) / 2, GetScreenHeight() / 2 + 150, 20, Color{155, 212, 242, 255});
+                break;
+            case 5:
+                DrawText("Scaling data...", GetScreenWidth() / 2 - MeasureText("Scaling data...", 20) / 2, GetScreenHeight() / 2 + 150, 20, Color{155, 212, 242, 255});
+                break;
+            default:
+                break;
+            }
+
+            DrawText("By Ibrahim UYSAL", 10, GetScreenHeight() - 30, 20, Color{105, 61, 228, 255});
+
+            if (IsKeyPressed(KEY_ENTER))
+            {
+                std::cout << "Starting loading data!" << std::endl;
+                dataLoadStatus = 1;
+                isLoaded = std::async(std::launch::async, AsyncDataLoader);
+            }
+
+            if (dataLoadStatus != 0 && isLoaded.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
+            {
+                activeScene = 1;
+                std::cout << "Data loaded!" << std::endl;
+                InitMapTexture();
+            }
+        }
+        else
+        {
+            DrawTexturePro(target.texture, {0, 0, (float)target.texture.width, (float)-target.texture.height}, {0, 0, (float)GetScreenWidth(), (float)GetScreenWidth()}, {0, 0}, 0, WHITE);
+            gez::NodeAnim::UpdateNode(GetFrameTime());
+
+            DrawCursor();
+            DrawDijkstra();
+            DrawSelectedNodes();
+            EndMode2D();
+            DrawFPS(10, 10);
+            DrawText("Istanbul", 20, GetScreenHeight() - 50, 40, Color{105, 61, 228, 255});
+            DrawText("By Ibrahim UYSAL", 50, GetScreenHeight() - 15, 10, Color{105, 61, 228, 255});
+        }
         EndDrawing();
     }
     CloseWindow();
@@ -56,6 +109,18 @@ void gez::renderer::InitMapTexture()
 
     bounds = fileparser::GetBounds();
     std::cout << "Bounds: " << bounds->x << " " << bounds->y << " " << bounds->z << " " << bounds->w << std::endl;
+}
+
+void gez::renderer::AsyncDataLoader()
+{
+    dataLoadStatus = 2; // reading file
+    fileparser::ReadFile("./Maps/simpleIST2.json");
+    dataLoadStatus = 3; // parsing data
+    fileparser::ParseData();
+    dataLoadStatus = 4; // standardizing data
+    fileparser::StandardizeData();
+    dataLoadStatus = 5; // scaling data
+    fileparser::ScaleData(GetScreenWidth());
 }
 
 void gez::renderer::DrawSelectedNodes()
