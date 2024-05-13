@@ -38,6 +38,8 @@ void gez::renderer::run()
         DrawSelectedNodes();
         EndMode2D();
         DrawFPS(10, 10);
+        DrawText("Istanbul", 20, GetScreenHeight() - 50, 40, Color{105, 61, 228, 255});
+        DrawText("By Ibrahim UYSAL", 50, GetScreenHeight() - 15, 10, Color{105, 61, 228, 255});
         EndDrawing();
     }
     CloseWindow();
