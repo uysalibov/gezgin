@@ -26,7 +26,8 @@ features
 
 usage
 -----
-<video controls src="./docs/gezgin.mp4" title="Gezgin"></video>
+
+https://github.com/uysalibov/gezgin/assets/74019847/63f28ea8-98c0-4786-a9d6-97850ebb6a65
 
 <img src="./docs/gezgin_ss1.png">
 
