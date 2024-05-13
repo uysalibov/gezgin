@@ -11,7 +11,7 @@ gezgin highly inspired by a YouTube video from [Navigraphix](https://www.youtube
 <br>
 <br>
 
-![GitHub License](https://img.shields.io/github/license/uysalibov/gezgin)
+![GitHub License](https://img.shields.io/github/license/uysalibov/gezgin?style=flat-square)
 
 features
 --------
