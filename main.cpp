@@ -1,4 +1,4 @@
-#include "renderer.h"
+#include "Renderer.h"
 #include "OSMJson.h"
 
 int main()
